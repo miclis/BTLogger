@@ -36,16 +36,14 @@ public class BtService extends Service {
 		// Stop looking for BT devices
 		stopScanning();
 		unregisterReceiver(mBluetoothReceiver);
+
 	}
 
 	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) throws UnsupportedOperationException {
+	public int onStartCommand(Intent intent, int flags, int startId) {
 		repository = new Repository(getApplication());
 
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		if(mBluetoothAdapter == null){  // Device does not support BT
-			throw new UnsupportedOperationException();
-		}
 		//  Device does support BT
 		if(mBluetoothAdapter.getState() != BluetoothAdapter.STATE_ON) mBluetoothAdapter.enable(); // Enables BT
 		/* Broadcast receiver registration for case, when BT device is discovered */

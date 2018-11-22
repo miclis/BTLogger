@@ -20,12 +20,21 @@ public class DeviceViewModel extends AndroidViewModel {
 		allDevices = repository.getAllDevices();
 	}
 
+	public void startScanning(){
+		repository.startScanning(getApplication());
+	}
+	public void stopScanning(){
+		repository.stopScanning(getApplication());
+	}
+
 	// Database API
 	public void insert(BtDevice device){repository.insert(device);}
 
 	public void update(BtDevice device){repository.update(device);}
 
 	public void delete(BtDevice device){repository.delete(device);}
+
+	public void deleteAll(){repository.deleteAllDevices();}
 
 	public LiveData<List<BtDevice>> getAllDevices(){return allDevices;}
 }

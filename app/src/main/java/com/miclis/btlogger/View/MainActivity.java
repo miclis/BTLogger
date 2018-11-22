@@ -2,14 +2,18 @@ package com.miclis.btlogger.View;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.bluetooth.BluetoothAdapter;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.Toast;
 import com.miclis.btlogger.Model.BtDevice;
 import com.miclis.btlogger.R;
 import com.miclis.btlogger.ViewModel.DeviceViewModel;
@@ -46,7 +50,27 @@ public class MainActivity extends AppCompatActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.menu_main, menu);
-		return true;
+
+		final MenuItem scanSwitch = menu.findItem(R.id.app_bar_switch);
+		final SwitchCompat actionView = (SwitchCompat) scanSwitch.getActionView();
+		actionView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if(isChecked){
+					actionView.setText(R.string.scan_on);
+					deviceViewModel.startScanning();
+				} else {
+					actionView.setText(R.string.scan_off);
+					deviceViewModel.stopScanning();
+				}
+			}
+		});
+		if(BluetoothAdapter.getDefaultAdapter() == null){
+			scanSwitch.setVisible(false);
+			Toast.makeText(this, "Unfortunately your device does not seem to support Bluetooth...",
+					Toast.LENGTH_LONG).show();
+		}
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
@@ -54,8 +78,14 @@ public class MainActivity extends AppCompatActivity {
 		switch (item.getItemId()) {
 			case R.id.action_settings:
 				// Open settings activity
+				break;
+			case R.id.action_delete_all:
+				deviceViewModel.deleteAll();
+				Toast.makeText(this, "All records deleted", Toast.LENGTH_SHORT).show();
+				break;
 			default:
-				return super.onOptionsItemSelected(item);
+
 		}
+		return super.onOptionsItemSelected(item);
 	}
 }

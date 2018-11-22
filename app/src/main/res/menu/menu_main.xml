@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/app_bar_switch"
+          android:title=""
+          app:showAsAction="always"
+          app:actionLayout="@layout/switch_item"
+          android:orderInCategory="100"
+    />
+
     <item android:id="@+id/action_settings"
           android:title="@string/action_settings"
           android:icon="@drawable/ic_settings"
-          android:orderInCategory="100"
-          app:showAsAction="ifRoom"/>
+          android:orderInCategory="101"
+          app:showAsAction="always"/>
+
+    <item android:id="@+id/action_delete_all"
+          android:title="Delete all"
+          android:icon="@drawable/ic_delete_"
+          android:orderInCategory="102"
+          app:showAsAction="always"/>
+
 </menu>
