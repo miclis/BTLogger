@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">BT Logger</string>
     <string name="action_settings">Settings</string>
+
+    <!-- BT device types -->
+    <string name="device_classic">CLASSIC</string>
+    <string name="device_dual">DUAL</string>
+    <string name="device_le">LE</string>
+    <string name="device_unknown">UNKNOWN</string>
 </resources>

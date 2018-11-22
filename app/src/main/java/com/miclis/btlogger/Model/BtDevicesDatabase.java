@@ -46,8 +46,8 @@ public abstract class BtDevicesDatabase extends RoomDatabase {
 		@Override
 		protected Void doInBackground(Void... voids) {
 			deviceDao.insert(new BtDevice("U800", "00:11:22:33:44:55", BluetoothDevice.DEVICE_TYPE_CLASSIC, new Short("30")));
-			deviceDao.insert(new BtDevice("U900", "02:11:72:33:44:55", BluetoothDevice.DEVICE_TYPE_CLASSIC, new Short("30")));
-			deviceDao.insert(new BtDevice("U910", "03:11:22:35:44:55", BluetoothDevice.DEVICE_TYPE_DUAL, new Short("30")));
+			deviceDao.insert(new BtDevice("U900", "02:11:72:33:44:55", BluetoothDevice.DEVICE_TYPE_CLASSIC, new Short("37")));
+			deviceDao.insert(new BtDevice("U910", "03:11:22:35:44:55", BluetoothDevice.DEVICE_TYPE_DUAL, new Short("-30")));
 			deviceDao.insert(new BtDevice("U920", "01:11:22:33:44:55", BluetoothDevice.DEVICE_TYPE_UNKNOWN, new Short("30")));
 			return null;
 		}
