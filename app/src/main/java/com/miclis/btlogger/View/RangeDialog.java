@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
-import android.widget.Toast;
 import com.miclis.btlogger.Model.BtService;
 import com.miclis.btlogger.R;
 
@@ -20,16 +19,16 @@ public class RangeDialog extends AppCompatDialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
 		LayoutInflater inflater = getActivity().getLayoutInflater();
-		final View view = inflater.inflate(R.layout.dialog_range, null);
+		final View view = inflater.inflate(R.layout.dialog_range,null);
 
-		builder.setView(view).setTitle("Set the minimal signal strength:")
-				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		builder.setView(view).setTitle(R.string.dialog_title)
+				.setNegativeButton(R.string.dialog_negative, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialogInterface, int i) {
 
 					}
 				})
-				.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+				.setPositiveButton(R.string.dialog_positive, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialogInterface, int i) {
 						BtService.setMaxScanRange(Short.valueOf(String.valueOf(numberPicker.getValue()*-1)));

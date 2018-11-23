@@ -23,11 +23,7 @@ public class Repository {
 	// BtService management
 	public void startScanning(Application application){
 		BtServiceIntent = new Intent(application, BtService.class);
-		try {
-			application.startService(BtServiceIntent);
-		} catch (UnsupportedOperationException e){
-			Toast.makeText(application.getApplicationContext(), "Device does not support Bluetooth", Toast.LENGTH_LONG).show();
-		}
+		application.startService(BtServiceIntent);
 	}
 
 	public void stopScanning(Application application){

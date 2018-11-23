@@ -11,4 +11,9 @@
     <!-- Switch -->
     <string name="scan_off">Scan off</string>
     <string name="scan_on">Scan on</string>
+
+    <!-- Dialog -->
+    <string name="dialog_title">Set the minimum signal strength:</string>
+    <string name="dialog_positive">Set</string>
+    <string name="dialog_negative">Cancel</string>
 </resources>
