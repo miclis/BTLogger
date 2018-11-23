@@ -16,6 +16,7 @@ import android.widget.Toast;
 public class BtService extends Service {
 
 	public static final int SCAN_THRESHOLD = 16000; // Time between starts of scan (millis)
+	private static Short scanRange = -90;
 
 	private Repository repository;
 
@@ -59,7 +60,9 @@ public class BtService extends Service {
 							device.getAddress(),
 							device.getType(),
 							intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE));
-					repository.insert(foundDevice);
+					if(intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE) >= scanRange) { // It is negative so must be higher or equal
+						repository.insert(foundDevice);
+					}
 				}
 			}
 		};
@@ -94,5 +97,13 @@ public class BtService extends Service {
 
 	private void stopScanning(){
 		mIsScanningOn = false;
+	}
+
+	public static void setMaxScanRange(Short range){
+		scanRange = range;
+	}
+
+	public static Short getScanRange(){
+		return scanRange;
 	}
 }

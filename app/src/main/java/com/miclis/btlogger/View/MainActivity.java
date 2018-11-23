@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 import com.miclis.btlogger.Model.BtDevice;
+import com.miclis.btlogger.Model.BtService;
 import com.miclis.btlogger.R;
 import com.miclis.btlogger.ViewModel.DeviceViewModel;
 
@@ -23,6 +24,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 	private DeviceViewModel deviceViewModel;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_settings:
-				// Open settings activity
+				// Open scanner dialog
+				openDialog();
+
 				break;
 			case R.id.action_delete_all:
 				deviceViewModel.deleteAll();
@@ -87,5 +91,10 @@ public class MainActivity extends AppCompatActivity {
 
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void openDialog(){
+		RangeDialog rangeDialog = new RangeDialog();
+		rangeDialog.show(getSupportFragmentManager(), "Range dialog");
 	}
 }
