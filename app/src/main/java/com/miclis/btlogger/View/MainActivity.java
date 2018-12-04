@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 import com.miclis.btlogger.Model.BtDevice;
-import com.miclis.btlogger.Model.BtService;
 import com.miclis.btlogger.R;
 import com.miclis.btlogger.ViewModel.DeviceViewModel;
 

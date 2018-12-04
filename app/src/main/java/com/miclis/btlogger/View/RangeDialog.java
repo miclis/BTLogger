@@ -25,7 +25,6 @@ public class RangeDialog extends AppCompatDialogFragment {
 				.setNegativeButton(R.string.dialog_negative, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialogInterface, int i) {
-
 					}
 				})
 				.setPositiveButton(R.string.dialog_positive, new DialogInterface.OnClickListener() {

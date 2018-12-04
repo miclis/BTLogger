@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
 
 
 public class BtService extends Service {
@@ -60,7 +59,8 @@ public class BtService extends Service {
 							device.getAddress(),
 							device.getType(),
 							intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE));
-					if(intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE) >= scanRange) { // It is negative so must be higher or equal
+					if(intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE) >= scanRange   // It is negative so must be higher or equal
+						&& foundDevice.getType() != BluetoothDevice.DEVICE_TYPE_LE) { // LE devices tend are not of practical use for this application and they tend to spam with responses, that is why we eliminate them at this stage
 						repository.insert(foundDevice);
 					}
 				}
