@@ -9,7 +9,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-@Database(entities = BtDevice.class, version = 1, exportSchema = false)
+@Database(entities = BtDevice.class, version = 3, exportSchema = false)
 public abstract class BtDevicesDatabase extends RoomDatabase {
 
 	private static BtDevicesDatabase instance;

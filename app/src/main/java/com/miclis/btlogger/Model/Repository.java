@@ -4,7 +4,6 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import java.util.List;
 
