@@ -27,7 +27,8 @@ public class DeviceAdapter extends ListAdapter<BtDevice, DeviceAdapter.DeviceHol
 		@Override
 		public boolean areContentsTheSame(BtDevice oldItem, BtDevice newItem) {
 			return oldItem.getAddress().equals(newItem.getAddress()) &&
-					oldItem.getRssi().equals(newItem.getRssi());
+					oldItem.getRssi().equals(newItem.getRssi()) &&
+					oldItem.getTimeIn().equals(newItem.getTimeIn());
 		}
 	};
 
@@ -58,6 +59,7 @@ public class DeviceAdapter extends ListAdapter<BtDevice, DeviceAdapter.DeviceHol
 					holder.textViewType.setText(R.string.device_unknown);
 		}
 		holder.textViewRssi.setText(String.valueOf(currentDevice.getRssi()));
+		holder.textViewTime.setText(currentDevice.getTimeIn().toString());
 	}
 
 	class DeviceHolder extends RecyclerView.ViewHolder{
@@ -65,6 +67,7 @@ public class DeviceAdapter extends ListAdapter<BtDevice, DeviceAdapter.DeviceHol
 		private TextView textViewAddress;
 		private TextView textViewType;
 		private TextView textViewRssi;
+		private TextView textViewTime;
 
 		public DeviceHolder(View itemView) {
 			super(itemView);
@@ -72,6 +75,7 @@ public class DeviceAdapter extends ListAdapter<BtDevice, DeviceAdapter.DeviceHol
 			textViewAddress = itemView.findViewById(R.id.text_view_address);
 			textViewType = itemView.findViewById(R.id.text_view_type);
 			textViewRssi = itemView.findViewById(R.id.text_view_rssi);
+			textViewTime = itemView.findViewById(R.id.text_view_time);
 		}
 	}
 }

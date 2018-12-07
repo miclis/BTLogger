@@ -23,6 +23,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 	private DeviceViewModel deviceViewModel;
+	private long backPressedTime;
+	private Toast exitToast;
 
 
 	@Override
@@ -95,5 +97,19 @@ public class MainActivity extends AppCompatActivity {
 	private void openDialog(){
 		RangeDialog rangeDialog = new RangeDialog();
 		rangeDialog.show(getSupportFragmentManager(), "Range dialog");
+	}
+
+	@Override
+	public void onBackPressed() {
+		if(backPressedTime + 2000 > System.currentTimeMillis()){
+			exitToast.cancel();
+			deviceViewModel.stopScanning(); // TODO - test if does not cause error on BT enabled devices
+			super.onBackPressed();
+			return;
+		} else {
+			exitToast = Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT);
+			exitToast.show();
+		}
+		backPressedTime = System.currentTimeMillis();
 	}
 }
