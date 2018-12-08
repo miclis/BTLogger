@@ -55,6 +55,7 @@ public class BtService extends Service {
 				if(BluetoothDevice.ACTION_FOUND.equals(intent.getAction())){
 					BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 					BtDevice foundDevice = new BtDevice(
+							mBluetoothAdapter.getName(),
 							device.getName(),
 							device.getAddress(),
 							device.getType(),
@@ -62,6 +63,7 @@ public class BtService extends Service {
 					if(intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE) >= scanRange   // It is negative so must be higher or equal
 						&& foundDevice.getType() != BluetoothDevice.DEVICE_TYPE_LE) { // LE devices tend are not of practical use for this application and they tend to spam with responses, that is why we eliminate them at this stage
 						repository.insert(foundDevice);
+						repository.cloudInsert(foundDevice);
 					}
 				}
 			}

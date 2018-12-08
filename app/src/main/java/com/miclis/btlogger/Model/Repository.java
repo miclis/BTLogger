@@ -4,19 +4,35 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 public class Repository {
 
+	// Local database
 	private BtDeviceDao deviceDao;
 	private LiveData<List<BtDevice>> allDevices;
 	private Intent BtServiceIntent;
+
+	// Cloud database
+	private MobileServiceClient mClient;
+	private MobileServiceTable<BtDevice> mDeviceTable;
 
 	public Repository(Application application){
 		BtDevicesDatabase database = BtDevicesDatabase.getInstance(application);
 		deviceDao = database.deviceDao();
 		allDevices = deviceDao.getAllDevices();
+
+		try {
+			mClient = new MobileServiceClient("https://btlogger.azurewebsites.net", application);
+			mDeviceTable = mClient.getTable(BtDevice.class);
+		} catch (MalformedURLException e){
+			Log.e("BT Logger", e.getMessage());
+		}
 	}
 
 	// BtService management
@@ -29,7 +45,7 @@ public class Repository {
 		application.stopService(BtServiceIntent);
 	}
 
-	// Api
+	// Room Api
 	public void insert(BtDevice device){
 		new InsertDeviceAsyncTask(deviceDao).execute(device);
 	}
@@ -49,7 +65,7 @@ public class Repository {
 	public LiveData<List<BtDevice>> getAllDevices(){
 		return allDevices;
 	}
-	///////////////////////////////////////////////////
+	//---------------------------------------
 
 	private static class InsertDeviceAsyncTask extends AsyncTask<BtDevice, Void, Void> {
 
@@ -110,6 +126,25 @@ public class Repository {
 			return null;
 		}
 	}
+	//--------------------------------------------------------------------------------------
 
+	// Cloud Api
+	public void cloudInsert(BtDevice device){
+		new InsertToCloudAsyncTask(mDeviceTable).execute(device);
 
+	}
+	private static class InsertToCloudAsyncTask extends AsyncTask<BtDevice, Void, Void>{
+
+		private MobileServiceTable<BtDevice> mobileServiceTable;
+
+		public InsertToCloudAsyncTask(MobileServiceTable<BtDevice> mobileServiceTable) {
+			this.mobileServiceTable = mobileServiceTable;
+		}
+
+		@Override
+		protected Void doInBackground(BtDevice... devices) {
+			mobileServiceTable.insert(devices[0]);
+			return null;
+		}
+	}
 }

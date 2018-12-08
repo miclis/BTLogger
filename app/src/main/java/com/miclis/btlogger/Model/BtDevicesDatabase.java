@@ -9,7 +9,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-@Database(entities = BtDevice.class, version = 3, exportSchema = false)
+@Database(entities = BtDevice.class, version = 5, exportSchema = false)
 public abstract class BtDevicesDatabase extends RoomDatabase {
 
 	private static BtDevicesDatabase instance;
@@ -45,10 +45,14 @@ public abstract class BtDevicesDatabase extends RoomDatabase {
 
 		@Override
 		protected Void doInBackground(Void... voids) {
-			deviceDao.insert(new BtDevice("U800", "00:11:22:33:44:55", BluetoothDevice.DEVICE_TYPE_CLASSIC, new Short("30")));
-			deviceDao.insert(new BtDevice("U900", "02:11:72:33:44:55", BluetoothDevice.DEVICE_TYPE_CLASSIC, new Short("37")));
-			deviceDao.insert(new BtDevice("U910", "03:11:22:35:44:55", BluetoothDevice.DEVICE_TYPE_DUAL, new Short("-30")));
-			deviceDao.insert(new BtDevice("U920", "01:11:22:33:44:55", BluetoothDevice.DEVICE_TYPE_UNKNOWN, new Short("30")));
+			deviceDao.insert(new BtDevice("Honor 9","U800", "00:11:22:33:44:55",
+					BluetoothDevice.DEVICE_TYPE_CLASSIC, new Short("-30")));
+			deviceDao.insert(new BtDevice("Honor 9","U900", "02:11:72:33:44:55",
+					BluetoothDevice.DEVICE_TYPE_CLASSIC, new Short("-37")));
+			deviceDao.insert(new BtDevice("Honor 9","U910", "03:11:22:35:44:55",
+					BluetoothDevice.DEVICE_TYPE_DUAL, new Short("-30")));
+			deviceDao.insert(new BtDevice("Honor 9","U920", "01:11:22:33:44:55",
+					BluetoothDevice.DEVICE_TYPE_UNKNOWN, new Short("-40")));
 			return null;
 		}
 	}

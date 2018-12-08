@@ -37,6 +37,7 @@ public class RangeDialog extends AppCompatDialogFragment {
 		numberPicker = view.findViewById(R.id.rangePicker);
 		numberPicker.setMinValue(10);
 		numberPicker.setMaxValue(90);
+		numberPicker.setValue(BtService.getScanRange()*-1);
 
 		return builder.create();
 	}

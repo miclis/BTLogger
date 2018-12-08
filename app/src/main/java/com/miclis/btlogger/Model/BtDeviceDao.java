@@ -18,6 +18,6 @@ public interface BtDeviceDao {
 	@Query("DELETE FROM devices_table")
 	void deleteAllDevices();
 
-	@Query("SELECT * FROM devices_table ORDER BY rssi DESC")
+	@Query("SELECT * FROM devices_table ORDER BY timeIn DESC")
 	LiveData<List<BtDevice>> getAllDevices();
 }

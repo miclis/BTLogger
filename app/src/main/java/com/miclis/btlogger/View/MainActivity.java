@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 				}
 			}
 		});
+
 		if(BluetoothAdapter.getDefaultAdapter() == null){
 			scanSwitch.setVisible(false);
 			Toast.makeText(this, "Unfortunately your device does not seem to support Bluetooth...",
@@ -103,7 +105,11 @@ public class MainActivity extends AppCompatActivity {
 	public void onBackPressed() {
 		if(backPressedTime + 2000 > System.currentTimeMillis()){
 			exitToast.cancel();
-			deviceViewModel.stopScanning(); // TODO - test if does not cause error on BT enabled devices
+			try {
+				deviceViewModel.stopScanning();
+			} catch (NullPointerException e) {
+				Log.i("BT Logger", "Service was not running...");
+			}
 			super.onBackPressed();
 			return;
 		} else {
