@@ -15,7 +15,7 @@ import android.util.Log;
 public class BtService extends Service {
 
 	public static final int SCAN_THRESHOLD = 16000; // Time between starts of scan (millis)
-	private static Short scanRange = -90;
+	private static Short scanRange = -100;   //Initial scan range
 
 	private Repository repository;
 
@@ -92,7 +92,7 @@ public class BtService extends Service {
 				Thread.sleep(SCAN_THRESHOLD);
 				if(mBluetoothAdapter != null) mBluetoothAdapter.cancelDiscovery();
 			} catch (InterruptedException e){
-				Log.i("BT Logger", "Service Thread interrupted");
+				Log.e("BT Logger", e.getMessage());
 			}
 		}
 	}

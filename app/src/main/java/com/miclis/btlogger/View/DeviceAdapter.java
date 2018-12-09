@@ -12,11 +12,16 @@ import android.widget.TextView;
 import com.miclis.btlogger.Model.BtDevice;
 import com.miclis.btlogger.R;
 
+import java.text.SimpleDateFormat;
+
+
 public class DeviceAdapter extends ListAdapter<BtDevice, DeviceAdapter.DeviceHolder> {
 
 	public DeviceAdapter(){
 		super(DIFF_CALLBACK);
 	}
+
+	private static final SimpleDateFormat df = new SimpleDateFormat("yyyy.MM.dd     HH:mm:ss");
 
 	private static final DiffUtil.ItemCallback<BtDevice> DIFF_CALLBACK = new DiffUtil.ItemCallback<BtDevice>() {
 		@Override
@@ -59,7 +64,8 @@ public class DeviceAdapter extends ListAdapter<BtDevice, DeviceAdapter.DeviceHol
 					holder.textViewType.setText(R.string.device_unknown);
 		}
 		holder.textViewRssi.setText(String.valueOf(currentDevice.getRssi()));
-		holder.textViewTime.setText(currentDevice.getTimeIn().toString());
+		holder.textViewTime.setText(df.format(currentDevice.getTimeIn()));
+		//holder.textViewTime.setText(currentDevice.getTimeIn().toString());
 	}
 
 	class DeviceHolder extends RecyclerView.ViewHolder{
