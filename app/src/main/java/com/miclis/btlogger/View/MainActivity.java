@@ -3,10 +3,13 @@ package com.miclis.btlogger.View;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
@@ -33,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		RecyclerView recyclerView = findViewById(R.id.recycler_view);
-		recyclerView.setLayoutManager(new LinearLayoutManager(this));
+		final RecyclerView recyclerView = findViewById(R.id.recycler_view);
+		recyclerView.setLayoutManager(new SlowLinearLayoutManager(this));
 		recyclerView.setHasFixedSize(true);
 
 		final DeviceAdapter adapter = new DeviceAdapter();
@@ -46,6 +49,17 @@ public class MainActivity extends AppCompatActivity {
 			public void onChanged(@Nullable List<BtDevice> btDevices) {
 				// Update RecyclerView
 				adapter.submitList(btDevices);
+				if(recyclerView.computeVerticalScrollOffset() <= 20)
+				{
+				recyclerView.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+
+						// Call smooth scroll
+						recyclerView.smoothScrollToPosition(0);
+					}
+				},500);
+			}
 			}
 		});
 	}
@@ -57,15 +71,31 @@ public class MainActivity extends AppCompatActivity {
 
 		final MenuItem scanSwitch = menu.findItem(R.id.app_bar_switch);
 		final SwitchCompat actionView = (SwitchCompat) scanSwitch.getActionView();
+
+		// Broadcast receiver for event when scanning is on and someone turns the BT off
+		final BroadcastReceiver mBluetoothStateReceiver = new BroadcastReceiver(){
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				if(BluetoothAdapter.ACTION_STATE_CHANGED.equals(intent.getAction())){
+					if(intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF){
+						actionView.setChecked(false);
+						Log.i("BT Logger", "Bluetooth turned off - scanning stops.");
+					}
+				}
+			}
+		};
+
 		actionView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(isChecked){
 					actionView.setText(R.string.scan_on);
 					deviceViewModel.startScanning();
+					registerReceiver(mBluetoothStateReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
 				} else {
 					actionView.setText(R.string.scan_off);
 					deviceViewModel.stopScanning();
+					unregisterReceiver(mBluetoothStateReceiver);
 				}
 			}
 		});
@@ -83,12 +113,12 @@ public class MainActivity extends AppCompatActivity {
 		switch (item.getItemId()) {
 			case R.id.action_settings:
 				// Open scanner dialog
-				openDialog();
+				openRangeDialog();
 
 				break;
 			case R.id.action_delete_all:
 				deviceViewModel.deleteAll();
-				Toast.makeText(this, "All records deleted", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "All records deleted.", Toast.LENGTH_SHORT).show();
 				break;
 			default:
 
@@ -96,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void openDialog(){
+	private void openRangeDialog(){
 		RangeDialog rangeDialog = new RangeDialog();
 		rangeDialog.show(getSupportFragmentManager(), "Range dialog");
 	}
