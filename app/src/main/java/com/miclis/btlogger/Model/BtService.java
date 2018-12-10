@@ -14,7 +14,7 @@ import android.util.Log;
 
 public class BtService extends Service {
 
-	public static final int SCAN_THRESHOLD = 16000; // Time between starts of scan (millis)
+	private static final int SCAN_THRESHOLD = 16000; // Time between starts of scan (millis)
 	private static Short scanRange = -100;   //Initial scan range
 
 	private Repository repository;
@@ -96,6 +96,12 @@ public class BtService extends Service {
 				Log.e("BT Logger", e.getMessage());
 			}
 		}
+	}
+
+	@Override
+	public void onTaskRemoved(Intent rootIntent) {
+		super.onTaskRemoved(rootIntent);
+		stopSelf();
 	}
 
 	private void stopScanning(){
