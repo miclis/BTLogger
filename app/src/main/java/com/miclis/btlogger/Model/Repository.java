@@ -18,8 +18,6 @@ public class Repository {
 	private LiveData<List<BtDevice>> allDevices;
 	private Intent BtServiceIntent;
 
-	// Cloud database
-	private MobileServiceClient mClient;
 	private MobileServiceTable<BtDevice> mDeviceTable;
 
 	public Repository(Application application){
@@ -28,7 +26,8 @@ public class Repository {
 		allDevices = deviceDao.getAllDevices();
 
 		try {
-			mClient = new MobileServiceClient("https://btlogger.azurewebsites.net", application);
+			// Cloud database
+			MobileServiceClient mClient = new MobileServiceClient("https://btlogger.azurewebsites.net", application);
 			mDeviceTable = mClient.getTable(BtDevice.class);
 		} catch (MalformedURLException e){
 			Log.e("BT Logger", e.getMessage());
@@ -131,7 +130,6 @@ public class Repository {
 	// Cloud Api
 	public void cloudInsert(BtDevice device){
 		new InsertToCloudAsyncTask(mDeviceTable).execute(device);
-
 	}
 	private static class InsertToCloudAsyncTask extends AsyncTask<BtDevice, Void, Void>{
 

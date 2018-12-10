@@ -86,6 +86,7 @@ public class BtService extends Service {
 	private void performScan(){
 		while(mIsScanningOn){
 			try{
+				//noinspection ConstantConditions
 				if(mIsScanningOn && mBluetoothAdapter != null){
 					mBluetoothAdapter.startDiscovery(); // Is performed asynchronously
 				}

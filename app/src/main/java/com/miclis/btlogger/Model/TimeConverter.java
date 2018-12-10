@@ -2,8 +2,6 @@ package com.miclis.btlogger.Model;
 
 import android.arch.persistence.room.TypeConverter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
