@@ -41,7 +41,9 @@ public class Repository {
 	}
 
 	public void stopScanning(Application application){
-		application.stopService(BtServiceIntent);
+		if(BtServiceIntent != null) {
+			application.stopService(BtServiceIntent);
+		}
 	}
 
 	// Room Api

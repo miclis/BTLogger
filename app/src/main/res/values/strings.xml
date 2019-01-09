@@ -17,4 +17,10 @@
     <string name="dialog_positive">Set</string>
     <string name="dialog_negative">Cancel</string>
     <string name="hint_rssi">Smaller value represents stronger signal.</string>
+
+    <!-- Other -->
+    <string name="no_bt">Unfortunately your device does not seem to support Bluetooth&#8230;</string>
+    <string name="clear">On-screen list cleared.</string>
+    <string name="permission_message">This application uses Bluetooth functionality. Bluetooth scans can be used to
+                                        gather information about the location of the user.</string>
 </resources>
