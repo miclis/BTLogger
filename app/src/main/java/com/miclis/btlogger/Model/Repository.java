@@ -19,6 +19,7 @@ public class Repository {
 	private Intent BtServiceIntent;
 
 	private MobileServiceTable<BtDevice> mDeviceTable;
+	private final String CLOUD_URL = "https://btlogger.azurewebsites.net";
 
 	public Repository(Application application){
 		BtDevicesDatabase database = BtDevicesDatabase.getInstance(application);
@@ -27,7 +28,7 @@ public class Repository {
 
 		try {
 			// Cloud database
-			MobileServiceClient mClient = new MobileServiceClient("https://btlogger.azurewebsites.net", application);
+			MobileServiceClient mClient = new MobileServiceClient(CLOUD_URL, application);
 			mDeviceTable = mClient.getTable(BtDevice.class);
 		} catch (MalformedURLException e){
 			Log.e("BT Logger", e.getMessage());
